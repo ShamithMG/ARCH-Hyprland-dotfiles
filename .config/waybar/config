@@ -9,6 +9,7 @@
     "modules-left": [
         "hyprland/workspaces",
         "custom/media",
+	"custom/spotify"
     ],
     "modules-center": [
         "hyprland/window"
@@ -199,6 +200,18 @@
         "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder
         // "exec": "$HOME/.config/waybar/mediaplayer.py --player spotify 2> /dev/null" // Filter player based on name
     },
+
+    "custom/spotify": {
+        "format": " {}",
+        "format-tooltip": "Spotify: {}",
+        "exec": "/usr/bin/python3 ~/dotfiles/Spotify/mediaplayer.py --player spotify",
+        "return-type": "json",
+        "on-click": "playerctl play-pause",
+    	"on-scroll-up": "playerctl next",
+    	"on-scroll-down": "playerctl previous"
+        
+    },
+
     "custom/power": {
         "format" : "⏻ ",
 		"tooltip": false,

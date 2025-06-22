@@ -73,3 +73,11 @@ tooltip label {
     animation-iteration-count: infinite;
     animation-direction: alternate;
 }
+
+
+.custom-spotify {
+    padding: 0 10px;
+    margin: 0 4px;
+    background-color: #1DB954;
+    color: black;
+}
