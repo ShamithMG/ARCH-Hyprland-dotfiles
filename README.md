@@ -29,7 +29,7 @@ pacman -S stow
 First, check out the dotfiles repo in your $HOME directory using git
 
 ```
-$ git clone git@github.com/dreamsofautonomy/dotfiles.git
+$ git clone git@github.com/ShamithMG/ARCH-Hyprland-dotfiles.git
 $ cd dotfiles
 ```
 
