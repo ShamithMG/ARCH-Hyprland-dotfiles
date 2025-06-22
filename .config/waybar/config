@@ -33,7 +33,7 @@
     ],
     // Modules configuration
      "hyprland/workspaces": {
-         "disable-scroll": true,
+         "disable-scroll": false,
          "all-outputs": true,
          "warp-on-scroll": false,
          "format": "{name}: {icon}",
@@ -104,7 +104,7 @@
         // }
     },
     "clock": {
-        // "timezone": "America/New_York",
+        "timezone": "Europe/London",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
         "format-alt": "{:%Y-%m-%d}"
     },
@@ -185,6 +185,8 @@
         },
         "on-click": "pavucontrol"
     },
+
+
     "custom/media": {
         "format": "{icon} {text}",
         "return-type": "json",
