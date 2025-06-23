@@ -1,35 +1,61 @@
 // -*- mode: jsonc -*-
 {
-    // "layer": "top", // Waybar at top layer
-    // "position": "bottom", // Waybar position (top|bottom|left|right)
+    "layer": "top", // Waybar at top layer
+    "position": "top", // Waybar position (top|bottom|left|right)
     "height": 30, // Waybar height (to be removed for auto height)
-    // "width": 1280, // Waybar width
-    "spacing": 4, // Gaps between modules (4px)
+    "width": 2175, // Waybar width
+    "mode": "dock",
+    "margin-top" : 3,
+    "margin-bottom": -3,
+    "spacing": 4, // Gaps between modules (4px),
+    
+    "signal-map": { "scroll-up": "pkill -RTMIN+8 waybar","scroll-down":"pkill -RTMIN+8 waybar"},
+
     // Choose the order of the modules
     "modules-left": [
-        "hyprland/workspaces",
-        "custom/spotify",
+        "hyprland/workspaces#roman",
+	"hyprland/window",
+	"custom/spotify"
     ],
     "modules-center": [
-        "hyprland/window",
+        "custom/clockweather",
 	
-	],
-    "modules-right": [
-        
-        "idle_inhibitor",
-        "pulseaudio",
-        "network",
-        "power-profiles-daemon",
-        "cpu",
-        "memory",
-        "temperature",
-        "keyboard-state",
-        "sway/language",
-        "clock",
-        "tray",
-        "custom/power"
     ],
+    "modules-right": [
+        "temperature",
+	"group/volume",
+        "memory",
+        "cpu",
+        "custom/separator",
+	"network",
+        "tray",
+        "custom/separator",
+	"custom/power"
+	],
+
     // Modules configuration
+
+   "custom/spotify": {
+        "format": " {}",
+        "format-tooltip": "Spotify: {}",
+        "exec": "/usr/bin/python3 ~/dotfiles/Spotify/mediaplayer.py --player spotify",
+        "return-type": "json",
+        "on-click": "playerctl --player=spotify play-pause",
+    	"on-scroll-up": "playerctl --player=spotify next",
+    	"on-scroll-down": "playerctl --player=spotify previous",
+	"max-length" : 40
+        
+    },
+
+    "hyprland/window": {
+	"format":"{}",
+	"max-length":13,
+	"min-length":13
+    },
+
+
+
+
      "hyprland/workspaces": {
          "disable-scroll": false,
          "all-outputs": true,
@@ -41,6 +67,33 @@
              "default": ""
          }
      },
+
+     "hyprland/workspaces#roman": {
+	"active-only": false,
+	"all-outputs": true,
+	"format": "{icon}",
+	"show-special": false,
+	"on-click": "activate",
+	"on-scroll-up": "hyprctl dispatch workspace e+1",
+	"on-scroll-down": "hyprctl dispatch workspace e-1",
+    "persistent-workspaces": {
+      "*": 4
+	},
+	"format-icons": {
+		"1": "I",
+		"2": "II",
+		"3": "III",
+		"4": "IV",
+		"5": "V",
+		"6": "VI",
+		"7": "VII",
+		"8": "VIII",
+		"9": "IX",
+		"10": "X",
+	},
+    },
+	
+
     "keyboard-state": {
         "numlock": true,
         "capslock": true,
@@ -78,13 +131,100 @@
     },
     "clock": {
         "timezone": "Europe/London",
-        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-        "format-alt": "{:%Y-%m-%d}"
+	"format": "{:%B | %a %d, %Y | %H:%M}",
+        "tooltip-format": "<big>{:%Y-%m-%d}</big>\n<tt>{calendar}</tt>",
+        "format-alt": "{:%A  |  %H:%M  |  %e %B}"
     },
+
+    "network": {
+        // "interface": "wlp2*", // (Optional) To force the use of this interface
+        "format-wifi": "{essid} ({signalStrength}%) ",
+        "format-ethernet": "{ipaddr}/{cidr} ",
+        "tooltip-format": "{ifname} via {gwaddr} ",
+        "format-linked": "{ifname} (No IP) ",
+        "format-disconnected": "Disconnected ⚠",
+        "format-alt": "{ifname}: {ipaddr}/{cidr}"
+    },
+
+
     "cpu": {
-        "format": "{usage}% ",
-        "tooltip": true
+	"format": "{usage}% 󰍛",
+	"interval": 1,
+	"min-length": 5,
+	"format-alt-click": "click",
+	"format-alt": "{icon0}{icon1}{icon2}{icon3}{usage:>2}% 󰍛",
+	"format-icons": [
+		"▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"
+	],
+
     },
+    
+    "group/volume":{
+	"orientation": "horizontal",
+	"modules": [
+	    "pulseaudio",
+	    "pulseaudio#microphone",
+	    "pulseaudio/slider",
+	],
+	"on-scroll": "pamixer"
+    },
+    "pulseaudio": {
+	"format": "{icon} {volume}%",
+	"format-bluetooth": "{icon} 󰂰 {volume}%",
+	"format-muted": "󰖁 no-vol",
+	"format-icons": {
+		"headphone": "",
+		"hands-free": "",
+		"headset": "",
+		"phone": "",
+		"portable": "",
+		"car": "",
+		"default": [
+			"", "", "󰕾",  ""
+		],
+		"ignored-sinks": [
+			"Easy Effects Sink"
+		],
+	},
+	"scroll-step": 5.0,
+	"on-click": "$HOME/.config/waybar/scripts/volume_slider.sh --toggle",
+	"on-click-right": "pavucontrol -t 3",
+	"on-scroll-up": "$HOME/.config/waybar/scripts/volume_slider.sh --inc",
+	"on-scroll-down": "$HOME/.config/waybar/scripts/volume_slider.sh --dec",
+	"tooltip-format": "{icon} {desc} | {volume}%",
+	"smooth-scrolling-threshold": 1,
+    },
+
+    "pulseaudio/slider": {
+	"min": 0,
+	"max": 100,
+	"orientation": "horizontal"
+	
+    },
+
+    "pulseaudio#microphone": {
+	"format": "{format_source}",
+	"format-source": " {volume}%",
+	"format-source-muted": "  mic-off",
+	"on-click": "$HOME/.config/waybar/scripts/volume_slider.sh --toggle-mic",
+	"on-click-right": "pavucontrol -t 4",
+	"on-scroll-up": "$HOME/.config/waybar/scripts/volume_slider.sh --mic-inc",
+	"on-scroll-down": "$HOME/.config/waybar/scripts/volume_slider.sh --mic-dec",
+	"tooltip-format": "{source_desc} | {source_volume}%",
+	"scroll-step": 5,
+    },
+
+
+    "custom/volume-slider" :{
+        "exec": "~/dotfiles/.config/waybar/scripts/volume_slider.sh",
+	"interval": "once",
+	"exec-on-event": true,
+	"tooltip" : false
+
+    },
+
+
+
     "memory": {
         "format": "{}% "
     },
@@ -97,59 +237,26 @@
         "format-icons": ["", "", ""]
     },
    
-    "power-profiles-daemon": {
-      "format": "{icon}",
-      "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
-      "tooltip": true,
-      "format-icons": {
-        "default": "",
-        "performance": "",
-        "balanced": "",
-        "power-saver": ""
-      }
-    },
-    "network": {
-        // "interface": "wlp2*", // (Optional) To force the use of this interface
-        "format-wifi": "{essid} ({signalStrength}%) ",
-        "format-ethernet": "{ipaddr}/{cidr} ",
-        "tooltip-format": "{ifname} via {gwaddr} ",
-        "format-linked": "{ifname} (No IP) ",
-        "format-disconnected": "Disconnected ⚠",
-        "format-alt": "{ifname}: {ipaddr}/{cidr}"
-    },
-    "pulseaudio": {
-        // "scroll-step": 1, // %, can be a float
-        "format": "{volume}% {icon} {format_source}",
-        "format-bluetooth": "{volume}% {icon} {format_source}",
-        "format-bluetooth-muted": " {icon} {format_source}",
-        "format-muted": " {format_source}",
-        "format-source": "{volume}% ",
-        "format-source-muted": "",
-        "format-icons": {
-            "headphone": "",
-            "hands-free": "",
-            "headset": "",
-            "phone": "",
-            "portable": "",
-            "car": "",
-            "default": ["", "", ""]
-        },
-        "on-click": "pavucontrol"
-    },
 
-    "custom/spotify": {
-        "format": " {}",
-        "format-tooltip": "Spotify: {}",
-        "exec": "/usr/bin/python3 ~/dotfiles/Spotify/mediaplayer.py --player spotify",
-        "return-type": "json",
-        "on-click": "playerctl --player=spotify play-pause",
-    	"on-scroll-up": "playerctl --player=spotify next",
-    	"on-scroll-down": "playerctl --player=spotify previous"
-        
+
+    "custom/clockweather": {
+        "format": "{}",
+        "tooltip": false,
+        "interval": 5,
+        "exec": "~/.config/waybar/scripts/temperature.sh",
+        "on-click": "~/.config/waybar/scripts/temperature.sh --toggle && pkill -RTMIN+9 waybar", // Using a new signal, 9
+        "signal": 9
+    },
+   
+
+    "custom/separator": {
+	"format": "|",
+	"interval": "once",
+	"tooltip:": false
     },
 
     "custom/power": {
-        "format" : "⏻ ",
+        "format" : " ⏻   ",
 		"tooltip": false,
 		"menu": "on-click",
 		"menu-file": "$HOME/.config/waybar/power_menu.xml", // Menu file in resources folder

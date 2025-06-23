@@ -1,27 +1,44 @@
+@define-color rosewater #f5e0dc;
+@define-color flamingo  #f2cdcd;
+@define-color pink      #f5c2e7;
+@define-color mauve     #cba6f7;
+@define-color red       #f38ba8;
+@define-color maroon    #eba0ac;
+@define-color peach     #fab387;
+@define-color yellow    #f9e2af;
+@define-color green     #a6e3a1;
+@define-color teal      #94e2d5;
+@define-color sky       #89dceb;
+@define-color sapphire  #74c7ec;
+@define-color blue      #89b4fa;
+@define-color lavender  #b4befe;
+@define-color text      #cdd6f4;
+@define-color subtext1  #bac2de;
+@define-color subtext0  #a6adc8;
+@define-color overlay2  #9399b2;
+@define-color overlay1  #7f849c;
+@define-color overlay0  #6c7086;
+@define-color surface2  #585b70;
+@define-color surface1  #45475a;
+@define-color surface0  #313244;
+@define-color base      #1e1e2e;
+@define-color mantle    #181926;
+@define-color crust     #11111b;
+
+@define-color volumectrl #AF69EE;
+
 * {
     border: none;
-    border-radius: 0;
-    font-family: Roboto, Helvetica, Arial, sans-serif;
-    font-size: 16px;
-    min-height: 0;
+    font-family: "Mononoki Nerd Font", "Font Awesome", sans-serif;
+    font-size: 15px;
+    font-weight: bold;
 }
 
 #waybar {
-    background: rgba(28, 32, 40, 0.7); 
-    color: #abb2bf; 
-    font-family: "JetBrainsMono Nerd Font", monospace; 
-    font-size: 13px;
-    border-bottom: 2px solid rgba(60, 65, 75, 0.5); 
-    border-radius: 8px; 
+    background-color: #0A0A0A ; 
+    color: #cdd6f4 ;
+    border-radius: 12px; 
     margin: 5px; 
-}
-
-window#waybar {
-    background: rgba(43, 48, 59, 0.5);
-    border-bottom: 3px solid rgba(100, 114, 125, 0.5);
-    color: white;
-    font-size: 16px;
-    min-height: 300px;
 }
 
 tooltip {
@@ -32,40 +49,6 @@ tooltip label {
   color: white;
 }
 
-#workspaces button {
-    padding: 0 5px;
-    background: transparent;
-    color: white;
-    border-bottom: 3px solid transparent;
-}
-
-#workspaces button.focused {
-    background: #64727D;
-    border-bottom: 3px solid white;
-}
-
-#mode, #clock, #battery {
-    padding: 0 10px;
-}
-
-#mode {
-    background: #64727D;
-    border-bottom: 3px solid white;
-}
-
-#clock {
-    background-color: #64727D;
-}
-
-#battery {
-    background-color: #ffffff;
-    color: black;
-}
-
-#battery.charging {
-    color: white;
-    background-color: #26A65B;
-}
 
 @keyframes blink {
     to {
@@ -74,24 +57,95 @@ tooltip label {
     }
 }
 
-#battery.warning:not(.charging) {
-    background: #f53c3c;
-    color: white;
-    animation-name: blink;
-    animation-duration: 0.5s;
-    animation-timing-function: steps(12);
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
+#workspaces {
+	background-color: #000000;
 }
 
+
+
+#workspaces,
+#clock,
+#memory,
+#cpu,
+#pulseaudio,
+#network,
+#tray {
+
+    color: @yellow;                /* Text color inside the pill */
+    padding: 5px 5px;           /* Padding inside the pill (top/bottom, left/right) */
+    margin: 5px 3px;             /* Margin OUTSIDE the pill, creates the gap! */
+    border-radius: 16px;         /* This creates the rounded corners */
+}
+
+/* ----- Individual Module Styles ----- */
+
+#workspaces button {
+    color: @overlay0;
+    background-color: transparent;
+    border-radius: 15px; /* We don't want individual buttons to be rounded */
+}
+
+#workspaces button.active {
+    color: @blue; /* Highlight the active workspace */
+}
+
+#pulseaudio {
+    color: @volumectrl;
+}
+
+#memory {
+    color: @sapphire;
+}
+
+#cpu {
+    color: @peach;
+}
+
+#network {
+    color: @green;
+}
+
+#clock {
+    color: @flamingo;
+}
+
+#custom-clockweather {
+    color: @flamingo;
+}
 
 .custom-spotify {
-    padding: 0 10px;
+    padding: 0 5px;
     margin: 0 5px;
-    background-color: #1DB954;
-    color: black;
-
-    border: 2px solid green;
-    border-radius: 15px;
-
+    color: #1ED760;
+ 
 }
+
+
+/* --- Volume Slider on Hover --- */
+#pulseaudio-slider slider {
+	min-width: 0px;
+	min-height: 0px;
+	opacity: 0;
+
+	margin-left: 0px;
+    	transition: max-width 0.4s ease, opacity 0.4s ease, margin-left 0.4s ease;
+
+	background-image: none;
+	border: none;
+	box-shadow: none;
+}
+
+#pulseaudio-slider trough {
+	background-color: #000000 ;
+	min-width: 80px;
+	min-height: 25px;
+	border-radius: 5px;
+}
+
+#pulseaudio-slider highlight {
+	background-color: @volumectrl;
+	min-height: 25px;
+	border-radius: 5px 0px 0px 5px;
+}
+
+
