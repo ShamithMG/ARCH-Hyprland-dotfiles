@@ -4,6 +4,7 @@
 Welcome to my arch linux config centre.
 will slowly rice my installation over time
 
+MASSIVE WIP - FILES AND CODE WILL BEAL OVER THE PLACE
 
 :) - have a nice day
 
