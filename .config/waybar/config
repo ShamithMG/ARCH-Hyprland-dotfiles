@@ -242,7 +242,7 @@
     "custom/clockweather": {
         "format": "{}",
         "tooltip": false,
-        "interval": 5,
+        "interval": 1,
         "exec": "~/.config/waybar/scripts/temperature.sh",
         "on-click": "~/.config/waybar/scripts/temperature.sh --toggle && pkill -RTMIN+9 waybar", // Using a new signal, 9
         "signal": 9

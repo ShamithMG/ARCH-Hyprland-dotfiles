@@ -1,0 +1,62 @@
+/* ~/.config/rofi/wallpaper_changer.rasi */
+configuration {
+  modi: "dmenu";
+  display-dmenu: "Wallpapers";
+  location: 0;
+  yoffset: 0;
+  xoffset: 0;
+  columns: 1;
+  fixed-num-lines: false;
+  font: "JetBrainsMono Nerd Font 10";
+  show-icons: false;
+  terminal: "alacritty";
+  click-to-exit: true;
+  sidebar-mode: false;
+}
+window {
+    transparency: "real";
+    background-color: #2e3440;
+    border:       2px;
+    padding:      15px;
+    width:        30%;
+}
+mainbox {
+    background-color: #2e3440;
+    children: [ inputbar, listview ];
+}
+inputbar {
+    background-color: #3b4252;
+    children: [ prompt, entry ];
+    padding: 5px;
+    border-radius: 5px;
+    margin: 0 0 10px 0;
+}
+prompt {
+    background-color: @background-color;
+    text-color: #eceff4;
+    font: "JetBrainsMono Nerd Font 10";
+}
+entry {
+    background-color: @background-color;
+    text-color: #eceff4;
+    placeholder: "Search...";
+    placeholder-color: #d8dee9;
+}
+listview {
+    background-color: #2e3440;
+    columns: 1;
+    lines: 10;
+    fixed-height: false;
+    scrollbar: false;
+    spacing: 5px;
+}
+element {
+    background-color: #3b4252;
+    padding: 8px;
+    border-radius: 5px;
+    text-color: #d8dee9;
+}
+element selected {
+    background-color: #81a1c1;
+    text-color: #eceff4;
+}
