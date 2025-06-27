@@ -137,13 +137,17 @@
     },
 
     "network": {
-        // "interface": "wlp2*", // (Optional) To force the use of this interface
+        //"interface": "wlp2*", // (Optional) To force the use of this interface
         "format-wifi": "{essid} ({signalStrength}%) ",
         "format-ethernet": "{ipaddr}/{cidr} ",
-        "tooltip-format": "{ifname} via {gwaddr} ",
+        "tooltip-format": "@{ifname} Connected to: {essid}",
         "format-linked": "{ifname} (No IP) ",
         "format-disconnected": "Disconnected ⚠",
-        "format-alt": "{ifname}: {ipaddr}/{cidr}"
+        "format-alt": "↑{bandwidthUpBits}|↓{bandwidthDownBits}",
+	"on-click-right": "sh $HOME/.config/waybar/scripts/wifi_setting.sh",
+	"interval" : 1,
+	"max-length":19,
+	"min-length":19,
     },
 
 
