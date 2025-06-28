@@ -14,6 +14,8 @@
     // Choose the order of the modules
     "modules-left": [
         "hyprland/workspaces#roman",
+	"idle_inhibitor",
+	"custom/separator",
 	"hyprland/window",
 	"custom/spotify"
     ],
@@ -29,6 +31,7 @@
         "custom/separator",
 	"network",
         "tray",
+	"custom/notification",
         "custom/separator",
 	"custom/power"
 	],
@@ -77,7 +80,7 @@
 	"on-scroll-up": "hyprctl dispatch workspace e+1",
 	"on-scroll-down": "hyprctl dispatch workspace e-1",
     "persistent-workspaces": {
-      "*": 4
+      "*": 5
 	},
 	"format-icons": {
 		"1": "I",
@@ -117,8 +120,8 @@
     "idle_inhibitor": {
         "format": "{icon}",
         "format-icons": {
-            "activated": "",
-            "deactivated": ""
+            "activated": " ",
+            "deactivated": " "
         }
     },
     "tray": {
@@ -162,6 +165,28 @@
 	],
 
     },
+
+    "custom/notification": {
+    	"tooltip": false,
+    	"format": "{icon}",
+    	"format-icons": {
+      		"notification": "<span foreground='red'><sup></sup></span>",
+      		"none": "",
+      		"dnd-notification": "<span foreground='red'><sup></sup></span>",
+      		"dnd-none": "",
+      		"inhibited-notification": "<span foreground='red'><sup></sup></span>",
+      		"inhibited-none": "",
+      		"dnd-inhibited-notification": "<span foreground='red'><sup></sup></span>",
+      		"dnd-inhibited-none": ""
+    	},
+    	"return-type": "json",
+    	"exec-if": "which swaync-client",
+    	"exec": "swaync-client -swb",
+    	"on-click": "swaync-client -t -sw",
+    	"on-click-right": "swaync-client -d -sw",
+    	"escape": true
+    },
+
     
     "group/volume":{
 	"orientation": "horizontal",
