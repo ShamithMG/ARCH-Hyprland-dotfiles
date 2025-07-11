@@ -1,24 +1,33 @@
 #!/bin/bash
 
-WALLPAPERS_DIR="$HOME/Downloads/Backgrounds-home/
-ROFI_THEME="$HOME/.config/rofi/wallpaper_changer.rasi" # Rofi theme for the changer menu
+STATIC_WALLPAPERS_DIR="$HOME/Downloads/Backgrounds-home/"
+LIVE_WALLPAPER_DIR="$HOME/Downloads/Backgrounds-live/"
 
-if ! pgrep -x hyprpaper > /dev/null; then
-    hyprpaper &
+TOGGLE_SCRIPT="$HOME/.config/hypr/scripts/toggle_wallpaper_mode.sh"
+ROFI_THEME="$HOME/.config/rofi/wallpaper_changer.rasi" 
+
+STATIC_WALLPAPER_LIST=$(find "$STATIC_WALLPAPERS_DIR" -type f -regex ".*\(jpg\|jpeg\|png\)" -print0 | xargs -0 basename -a)
+LIVE_WALLPAPER_LIST=$(find "$LIVE_WALLPAPERS_DIR" -type f -regex ".*\(mp4\) -print0 | xargs -0 basename -a)
+
+FULL_WALLPAPER_LIST=$(printf "%s\n" "$STATIC_WALLPAPER_LIST" "$LIVE_WALLPAPER_LIST")
+
+chosen_wallpaper=$(echo -e "$FULL_WALLPAPER_LIST" | rofi -dmenu -i -p "Wallpapers" -theme "$ROFI_THEME")
+
+if [ -z "$chosen_wallpaper"]; then 
+	exit 0 
+fi 
+
+FULL_WALLPAPER_PATH=""
+
+if [[ -f "$STATIC_WALLPAPER_DIR/$chosen_wallpaper" ]]; then
+	FULL_WALLPAPER_PATH="$STATIC_WALLPAPER_DIR/$chosen_wallpaper"
+elif [[ -f "$LIVE_WALLPAPER_DIR/$chosen_wallpaper" ]]; then
+	FULL_WALLPAPER_PATH="$LIVE_WALLPAPER_DIR/$chosen_wallpaper"
+else
+	echo "Error: no wallpaper found"
+	exit 1
 fi
 
-WALLPAPER_LIST=$(find "$WALLPAPERS_DIR" -type f -regex ".*\(jpg\|jpeg\|png\)" -print0 | xargs -0 basename -a)
+"$TOGGLE_SCRIPT" "$FULL_WALLPAPER_PATH"
 
-chosen_wallpaper=$(echo -e "$WALLPAPER_LIST" | rofi -dmenu -i -p "Wallpapers" -theme "$ROFI_THEME")
-
-if [ -n "$chosen_wallpaper" ]; then
-    FULL_WALLPAPER_PATH="$WALLPAPERS_DIR/$chosen_wallpaper"
-
-    wal -i "$FULL_WALLPAPER_PATH"
-
-    hyprctl hyprpaper preload "$FULL_WALLPAPER_PATH"
-    hyprctl hyprpaper wallpaper ",$FULL_WALLPAPER_PATH" # Sets it for all monitors
-
-    killall waybar && waybar &
-
-fi
+exit 0

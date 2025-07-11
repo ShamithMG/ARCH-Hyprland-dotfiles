@@ -5,7 +5,7 @@ STATIC_WALLPAPER_DIR="$HOME/Downloads/Backgrounds-home"
 LIVE_WALLPAPER_DIR="$HOME/Downloads/Backgrounds-live"
 
 DEFAULT_STATIC_WALLPAPER="$HOME/Downloads/Backgrounds-home/37.jpg"
-DEFAULT_LIVE_WALLPAPER="$HOME/Downloads/Backgrounds-live/live1.mp4"
+DEFAULT_LIVE_WALLPAPER="$HOME/Downloads/Backgrounds-live/live6.mp4"
 
 EXTRACTED_FRAME_CACHE="/tmp/video_frame_cache.png"
 MONITOR_NAMES="DP-2 HDMI-A-2"
